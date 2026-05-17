@@ -1,45 +1,7 @@
-/**
- * =============================================================================
- * COMPONENTE: ConsultaCard
- * =============================================================================
- *
- * Este é nosso primeiro componente extraído!
- *
- * O que este componente faz?
- * → Exibe os dados de UMA consulta médica de forma organizada
- *
- * Por que criamos este componente?
- * → Reutilização: Se tivermos 10 consultas, usamos este componente 10 vezes
- * → Organização: App.tsx não precisa saber COMO renderizar um card
- * → Manutenção: Mudanças no visual do card acontecem apenas aqui
- * → Testabilidade: Podemos testar este componente isoladamente
- *
- * =============================================================================
- */
-
 import React from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
-
-// Importamos a interface Consulta que criamos na aula passada
-// Ela vem de src/interfaces/ porque é usada em VÁRIOS lugares
 import { Consulta } from "../interfaces/consulta";
 
-/**
- * =============================================================================
- * TIPAGEM DAS PROPS (TYPE LOCAL DO COMPONENTE)
- * =============================================================================
- *
- * Atenção para esta distinção IMPORTANTE:
- *
- * Consulta → está em src/interfaces/ (usada em vários lugares)
- * ConsultaCardProps → está AQUI (usada APENAS neste componente)
- *
- * REGRA DE OURO:
- * Type/Interface usado em VÁRIOS componentes → src/types/ ou src/interfaces/
- * Type usado em UM componente só → dentro do próprio arquivo
- *
- * =============================================================================
- */
 type ConsultaCardProps = {
   // A consulta que queremos exibir (OBRIGATÓRIA)
   consulta: Consulta;
@@ -94,11 +56,14 @@ export default function ConsultaCard({
     });
   }
 
-  // Formata uma data no padrão brasileiro (25/03/2026)
-  function formatarData(data: Date): string {
-    return data.toLocaleDateString("pt-BR");
+    // Formata uma string ISO do backend no padrão brasileiro (25/03/2026 às 09:00)
+  function formatarData(dataHora: string): string {
+    const data = new Date(dataHora);
+    const dia = data.toLocaleDateString("pt-BR");
+    const hora = data.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+    return `${dia} às ${hora}`;
   }
-
+ 
   return (
     <View style={styles.card}>
 
